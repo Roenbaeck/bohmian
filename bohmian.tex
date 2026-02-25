@@ -1,0 +1,551 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template (Seams series style)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,twoside]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+\usepackage{microtype}
+\usepackage[english]{babel}
+\usepackage[margin=1in]{geometry}
+\usepackage[hang,small,labelfont=bf,up,textfont=it,up]{caption}
+\usepackage{enumitem}
+\setlist[itemize]{noitemsep}
+\usepackage{abstract}
+\renewcommand{\abstractnamefont}{\normalfont\bfseries}
+\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
+\usepackage{framed}
+\usepackage{xcolor}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[C]{Seam Geometry of Bohmian Mechanics}
+\fancyfoot[C]{\thepage}
+\usepackage{titling}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lmodern}
+\usepackage{mathtools}
+\usepackage{graphicx}
+\usepackage{cleveref}
+
+\newtheorem{definition}{Definition}[section]
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}{Proposition}[section]
+\newtheorem{observation}{Observation}[section]
+\newtheorem{conjecture}{Conjecture}[section]
+\newtheorem{remark}{Remark}[section]
+
+\numberwithin{equation}{section}
+
+\definecolor{PrismBoxGray}{gray}{0.95}
+\newenvironment{analogybox}
+  {\begin{center}\setlength{\FrameSep}{6pt}\begin{framed}\noindent\ignorespaces}
+  {\end{framed}\end{center}}
+
+\hypersetup{
+  pdftitle={Seam Geometry of Bohmian Mechanics: Geodesics, Foliations, and Nodal Singularities},
+  pdfauthor={Lars R\"onnb\"ack}
+}
+
+%----------------------------------------------------------------------------------------
+% TITLE
+%----------------------------------------------------------------------------------------
+
+\pretitle{\begin{center}\Huge\bfseries}
+\posttitle{\end{center}}
+\title{Seam Geometry of Bohmian Mechanics:\\
+Geodesics, Foliations, and Nodal Singularities}
+\author{%
+  \\[2mm]
+  \textsc{Lars Rönnbäck}\\[1ex]
+  \normalsize Stockholm University\\
+  \normalsize \href{mailto:lars@uptochange.com}{lars@uptochange.com}\\[1ex]
+}
+\date{}
+\renewcommand{\maketitlehookd}{%
+\begin{abstract}
+\noindent This paper reframes Bohmian mechanics in seam variables built from the wavefunction modulus and phase. Writing $\psi=R\exp(iS/\hbar)$, the amplitude seam $s=\log R$ encodes the Bohm--Madelung quantum potential via $Q=-(R''/R)=-(s''+(s')^2)$ (in the stationary 1D convention used here). An \emph{effective seam} $\tilde s:=S-\tfrac12 s$ defines a seam-induced conformal factor (a prototype for higher-dimensional metric constructions). Assuming a complex coordinate $z=x+iy$, the quadratic differential $w=(\partial_z^2\log\psi)\,dz^2$ is used as a geometric organiser of nodal neighbourhoods. An exact 2D vortex alignment result is proved, showing that the QD-horizontal direction field coincides with the probability-current direction field for $\psi=ze^{-|z|^2/2}$ away from the node, together with a local ``vortex dominance'' proposition giving asymptotic direction-field alignment near any isolated simple node under a mild factorisation hypothesis. Reproducible numerical tests are provided for a centered vortex, a shifted vortex, and a two-node non-example.
+\end{abstract}
+\noindent\textbf{Keywords:} Bohmian mechanics; Madelung hydrodynamics; seam geometry; quantum potential; holomorphic quadratic differential; nodal singularities
+
+
+}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{fancy}
+
+\section{Introduction}
+
+The seam framework generates geometric quantities from a scalar field $s$ via explicit local rules. Here we apply this scalar-first viewpoint to the Madelung--Bohm formulation.
+
+Let $\psi=R\exp(iS)$, in natural units $\hbar=1$ (and with $m=1$ when interpreting $S$ as a phase/action). The amplitude seam is $s=\log R$, so that $R''/R=s''+(s')^2$ in 1D (and $\Delta R/R=\Delta s+|\nabla s|^2$ in higher dimensions). Bohmian trajectories obey $\dot x=\nabla S$.
+
+We introduce the effective seam
+\[
+\tilde s:=S-\tfrac12 s,
+\]
+which induces a conformal metric of the form $g=|\nabla\tilde s|^2\delta_{ij}$. A second (partly conjectural) geometric layer comes from the complex logarithm $f:=\log\psi=s+iS$ and the quadratic differential $w:=(\partial_z^2\log\psi)\,dz^2$ after analytic continuation of $\psi$.
+
+All formal statements below are made for the stationary 1D case (most explicit calculations). Higher-dimensional generalisations using level-set foliations of $s$ are noted separately.
+
+\paragraph{Structure of the paper.}
+We first establish seam identities that reframe the Bohm--Madelung system in terms of $s=\log R$ and $\tilde s=S-\tfrac12 s$, including the stationary quantum potential identity $Q=-(s''+(s')^2)$.
+We then introduce the quadratic differential $w=\partial_z^2\log\psi\,dz^2$, prove exact and asymptotic alignment results for vortex-type nodes, and record explicit limitations and non-examples.
+Finally, we discuss nodal singularities and supporting numerical tests.
+
+\section{Setup and Conventions}
+
+\begin{definition}[Seam geometry in this paper]
+By \emph{seam geometry} we mean the construction of geometric quantities from a scalar field (a \emph{seam}) via explicit local rules.
+In the present setting the wavefunction $\psi$ provides seams through its polar form $\psi=Re^{iS}$: the amplitude seam $s:=\log R$ and the effective seam $\tilde s:=S-\tfrac12 s$.
+The main seam-generated objects used below are the quantum potential identity $Q=-(s''+(s')^2)$ in 1D (and $Q=-(\Delta s+|\nabla s|^2)$ formally in higher dimensions), the seam-induced conformal factor $|\nabla\tilde s|^2$, and the quadratic differential $w=(\partial_z^2\log\psi)\,dz^2$.
+\end{definition}
+
+We work primarily with the stationary Schr\"odinger equation in 1D in the convention
+\begin{equation}
+ -\psi''(x) + V(x)\,\psi(x) = E\,\psi(x),
+ \label{eq:schrodinger}
+\end{equation}
+and write
+\begin{equation}
+ \psi(x)=R(x)e^{iS(x)},\qquad R(x)>0\ \text{away from nodes}.
+ \label{eq:polar}
+\end{equation}
+Define the amplitude seam $s:=\log R$. A direct substitution of \cref{eq:polar} into \cref{eq:schrodinger} yields the Bohm--Madelung system~\cite{Madelung1926,Bohm1952,Takabayasi1952}
+\begin{align}
+ (S')^2 + V + Q &= E, \label{eq:HJ}\\
+ (R^2 S')' &= 0, \label{eq:continuity}
+\end{align}
+where the (stationary) quantum potential is
+\begin{equation}
+ Q:= -\frac{R''}{R} = -(s''+(s')^2).
+ \label{eq:Q}
+\end{equation}
+The Bohmian velocity field is $\dot x = S'(x)$.
+
+\begin{remark}[Schr\"odinger ODE as a projective connection (1D)]
+\label{rem:projective-schrodinger}
+Rewrite \cref{eq:schrodinger} as a second-order linear ODE
+\[
+ \psi''(x) + (E-V(x))\,\psi(x)=0.
+\]
+It is a classical fact from Sturm--Liouville theory and projective differential geometry~\cite{OvsienkoTabachnikov2005} that if $\psi_1,\psi_2$ are two linearly independent solutions and $F:=\psi_1/\psi_2$, then the Schwarzian derivative
+\[
+\mathcal S(F,x):=\frac{F'''}{F'}-\frac32\left(\frac{F''}{F'}\right)^2
+\]
+satisfies
+\[
+\mathcal S(F,x)=2\,(E-V(x)).
+\]
+Equivalently, the coefficient $E-V$ defines a projective connection on the $x$-line. This remark is included only as context for the appearance of Schwarzian/projective structures in nearby mathematics; the main object used in the present paper remains $w=\partial_z^2\log\psi$.
+\end{remark}
+
+\begin{remark}[Higher-dimensional seam identity (formal extension)]
+In $d$ dimensions one has the elementary identity
+\begin{equation}
+ \frac{\Delta R}{R}=\Delta(\log R)+|\nabla(\log R)|^2 = \Delta s + |\nabla s|^2,
+ \label{eq:laplaceRoverR}
+\end{equation}
+valid wherever $R>0$. For the stationary Schr\"odinger convention $-\Delta\psi+V\psi=E\psi$ (natural units), the Bohm quantum potential takes the form
+\[
+Q= -\frac{\Delta R}{R}=-(\Delta s+|\nabla s|^2),
+\]
+so the Hamilton--Jacobi equation can be written suggestively as
+\[
+ |\nabla S|^2 + V - \Delta s - |\nabla s|^2 = E.
+\]
+This paper keeps the main derivations in 1D but uses \cref{eq:laplaceRoverR} as motivation for the geometric role of $s$ in higher-dimensional generalisations.
+\end{remark}
+
+\begin{remark}[Units]
+Throughout we use natural units $\hbar=1$ and (when interpreting $S$ as an action/phase field) particle mass $m=1$. With this convention $S$ is dimensionless (a phase), and $s=\log R$ is dimensionless, so the effective seam $\tilde s:=S-\tfrac12 s$ is dimensionless as written.
+\end{remark}
+
+\section{Effective Seam and a 1D Geodesic Reformulation}
+
+\begin{remark}[1D geodesic reformulation (reparametrisation triviality)]
+In stationary 1D, one may associate to the effective seam $\tilde s:=S-\tfrac12 s$ the conformal metric
+\begin{equation}
+ ds_g^2 := (\tilde s'(x))^2\,dx^2.
+ \label{eq:metric1d}
+\end{equation}
+Any $C^2$ curve becomes an affine geodesic after reparametrisation, since in 1D every metric $ds^2=f(x)^2dx^2$ is isometric to the Euclidean line via $y=\int^x f(u)\,du$.
+Accordingly, the role of \cref{eq:metric1d} in this paper is not to claim nontrivial 1D geometry, but to exhibit an explicit seam-induced conformal factor tied to $(S,s)$ that has meaningful higher-dimensional analogues.
+\end{remark}
+
+\begin{remark}[Higher-dimensional metric candidates]
+In more than one dimension, the effective seam suggests multiple natural metric constructions. Besides the isotropic conformal choice $g=|\nabla\tilde s|^2\delta_{ij}$ used as a simple prototype in this paper, one can also consider the rank-one tensor
+\[
+g_{ij}:=\partial_i\tilde s\,\partial_j\tilde s,
+\]
+which is directly tied to the flow potential $\tilde s$ and may be better suited for comparing direction fields. These higher-dimensional metric choices are not pursued here.
+\end{remark}
+
+\section{Quadratic Differentials and Flow Organisation (2D/Complex Setting)}
+
+To compare with probability-current streamlines in 2D examples, we use the (standard holomorphic) Wirtinger derivative
+\begin{equation}
+ \partial_z := \tfrac12(\partial_x - i\partial_y),\qquad z=x+iy,
+ \label{eq:wirtinger}
+\end{equation}
+which satisfies $\partial_z z = 1$ and $\partial_z\bar z = 0$, and define
+\begin{equation}
+ w(z)\,dz^2 := \partial_z^2\log\psi(z)\,dz^2
+ \label{eq:qd}
+\end{equation}
+on regions where $\psi\neq0$. When $\psi$ is holomorphic in $z$, this recovers the usual holomorphic quadratic differential. For general real wavefunctions $\psi(x,y)$, we apply $\partial_z$ termwise using the product rule, exploiting $\partial_z\bar z=0$ to isolate the holomorphic content; \cref{eq:qd} should be read in this extended sense and local quadratic-differential foliation theory applies in the meromorphic-in-$z$ regimes.
+
+\begin{remark}[On analytic continuation]
+The quadratic-differential picture is most straightforward when $\psi$ extends to a function that is analytic (or at least meromorphic) in a complex coordinate $z$ on the region of interest, since then $w=\partial_z^2\log\psi$ is meromorphic away from zeros and standard local quadratic-differential foliation theory applies.
+In the numerical 2D examples below we regard $\psi(x,y)$ as a smooth function on the plane and apply $\partial_z$ as a differential operator via \cref{eq:wirtinger}.
+For stationary 1D eigenfunctions, analytic continuation is standard for many common solvable models (e.g. harmonic-oscillator states extend to entire functions), but for general potentials it should be viewed as a mathematical device for organising local nodal geometry rather than a universal physical assumption.
+\end{remark}
+
+\begin{remark}[Projective structure, Schwarzian, and the quantum potential]
+\label{rem:projective-qd}
+Algebraically,
+\[
+ \partial_z^2\log\psi = \frac{\partial_z^2\psi}{\psi}-\left(\frac{\partial_z\psi}{\psi}\right)^2,
+\]
+so $w$ measures a kind of ``curvature'' of the logarithmic derivative $\partial_z\psi/\psi$.
+In projective differential geometry, quadratic differentials arise as components of projective connections and via the Schwarzian derivative~\cite{OvsienkoTabachnikov2005}. Writing $f=\log\psi$, we have $w=\partial_z^2 f$, and the Schwarzian $\mathcal S(f,z)=(\partial_z^3 f)/(\partial_z f) - \tfrac32\bigl((\partial_z^2 f)/(\partial_z f)\bigr)^2$ is built algebraically from $w = \partial_z^2 f$ and $\partial_z f$; this connects $w\,dz^2$ to the same projective structure already noted in Remark~\ref{rem:projective-schrodinger} for the Schr\"odinger equation.
+
+There is a direct computational link to the quantum potential. Setting $f = s + iS$ and using $\psi = e^f$ gives
+\[
+ \frac{\psi''}{\psi} = f'' + (f')^2 = \bigl(s'' + s'^2 - S'^2\bigr) + i\bigl(S'' + 2s'S'\bigr),
+\]
+so $\operatorname{Re}(\psi''/\psi) = s'' + s'^2 - S'^2 = -Q - S'^2$, where we used $Q = -(s''+s'^2)$. The Schr\"odinger equation reads $\psi''/\psi = -(E-V)$ (real $V,E$), giving the decomposition
+\[
+ E - V = Q + S'^2.
+\]
+This is simply the Hamilton--Jacobi equation~\cref{eq:HJ} (which reads $(S')^2+V+Q=E$, i.e.\ $E-V=Q+S'^2$, confirming sign consistency), but its derivation via $f = \log\psi$ reveals the geometric content: the quantum potential is the \emph{amplitude-curvature component} of the projective data encoded in $\psi''/\psi$, while the phase gradient $S'$ carries the kinetic contribution. In this sense $w\,dz^2$ sits at the interface of seam geometry and projective differential geometry: it is the second-order component of the projective connection whose real part splits cleanly into quantum and classical energy contributions. A structurally analogous quadratic differential appears in two-dimensional conformal field theory as the holomorphic stress tensor~\cite{DiFrancesco1997}, where operator insertions produce double poles; the zeros of $\psi$ play exactly this role, as made precise in Observation~\ref{obs:pole-structure} — this structural parallel motivates the geometric language but does not imply a dynamical identification with the CFT stress tensor.
+\end{remark}
+
+\begin{observation}[Pole structure and foliation organiser]
+\label{obs:pole-structure}
+Assume $\psi$ extends analytically to a complex neighbourhood of interest and that $w$ in \cref{eq:qd} is meromorphic in $z$ away from zeros of $\psi$. Then zeros of $\psi$ produce double poles of $w$ whose induced horizontal foliation provides an organiser of nodal neighbourhood geometry.
+\end{observation}
+
+\begin{proof}
+If $\psi(z)\sim (z-\rho)^m$ has a zero of order $m$ at $z=\rho$, then
+\[
+ \log\psi(z)= m\log(z-\rho) + \text{holomorphic},\qquad \partial_z^2\log\psi(z)\sim -\frac{m}{(z-\rho)^2}.
+\]
+Thus $w$ has a double pole with residue data determined by $m$. By standard quadratic differential theory~\cite{Strebel1984}, a double pole generates a prong-type foliation whose number of distinguished directions grows linearly with $m$. This provides a geometric organiser for how integral curves can approach/avoid nodal points. The double-pole structure near isolated zeros is closely analogous to the phase singularities (wave vortices) studied in optics and wave-field physics~\cite{NyeBerry1974,BerryDennis2000}, where circulating phase and current around a node are the defining features.
+
+In this setting the use of quadratic-differential local theory is justified once $\psi$ is fixed as an analytic function on a complex domain: $w=\partial_z^2\log\psi$ is then a meromorphic function away from zeros of $\psi$, and the induced foliation is a standard object of the theory (the branch ambiguity of $\log\psi$ only contributes an additive constant and does not affect $\partial_z^2\log\psi$).
+
+A full identification of ``horizontal leaves'' with Bohmian trajectories requires specifying (i) the map from the $z$-plane foliation to trajectories in configuration space, and (ii) a parameter choice along trajectories. No such global identification is attempted here; the key input is the pole/prong correspondence and the resulting local direction field near nodes.
+\end{proof}
+
+\begin{observation}[Direction-field comparison with probability current]
+On a 2D configuration plane with $\psi(x,y)$, define the probability current
+\begin{equation}
+ \mathbf{J} := \operatorname{Im}(\bar\psi\,\nabla\psi),
+ \label{eq:current}
+\end{equation}
+and the QD-horizontal direction angle
+\begin{equation}
+ \theta_{\mathrm{qd}}(x,y) := -\tfrac12\arg\bigl(w(x+iy)\bigr)\quad (\mathrm{mod}\ \pi).
+ \label{eq:thetaqd}
+\end{equation}
+Where both are defined and $\mathbf{J}\neq0$, one can meaningfully test whether current streamlines align with the QD-horizontal direction field, i.e.
+$\mathbf{J}/|\mathbf{J}|=\pm(\cos\theta_{\mathrm{qd}},\sin\theta_{\mathrm{qd}})$.
+\end{observation}
+
+\begin{proposition}[Exact alignment for the vortex test state]
+Consider the 2D vortex-like state
+\begin{equation}
+ \psi(x,y)=(x+iy)\exp\bigl(-(x^2+y^2)/2\bigr)=z\,e^{-|z|^2/2}.
+ \label{eq:vortexpsi}
+\end{equation}
+On $\mathbb{R}^2\setminus\{0\}$, the probability-current direction field and the QD-horizontal direction field from \cref{eq:qd} coincide (up to the $\pm$ ambiguity of an unoriented foliation).
+\label{prop:vortex-alignment}
+\end{proposition}
+
+\begin{proof}
+Write $z=re^{i\theta}$ so that $\psi=R e^{iS}$ with phase $S=\theta$ and amplitude $R=r\,e^{-r^2/2}$. Hence
+\[
+ \nabla S = \frac{1}{r}\,\mathbf{e}_\theta,\qquad \mathbf{J}=R^2\nabla S = r e^{-r^2}\,\mathbf{e}_\theta,
+\]
+so the current streamlines are circles and the current direction is tangential ($\mathbf{e}_\theta$) on $\mathbb{R}^2\setminus\{0\}$.
+
+Next compute $w=\partial_z^2\log\psi$ using \cref{eq:wirtinger}. Although $\psi=z e^{-|z|^2/2}$ is not holomorphic ($|z|^2=z\bar z$ depends on $\bar z$), the identity $\partial_z\bar z=0$ means non-holomorphic terms are killed by $\partial_z$. Concretely, since
+\[
+ \log\psi=\log z - \tfrac12 z\bar z,
+\]
+we have $\partial_z\log\psi = 1/z - \bar z/2$ (using $\partial_z(z\bar z)=\bar z$), and then
+\[
+ w=\partial_z^2\log\psi = -\frac{1}{z^2}
+\]
+since $\partial_z(-\bar z/2)=0$. The non-holomorphic Gaussian factor therefore contributes only to the first-order term and drops out of $w$ entirely.
+Thus $\arg w=\arg(-1)-2\theta=\pi-2\theta$ (mod $2\pi$), so
+\[
+ \theta_{\mathrm{qd}}=-\tfrac12\arg w \equiv -\tfrac12(\pi-2\theta)=\theta-\tfrac\pi2\quad (\mathrm{mod}\ \pi).
+\]
+The unit vector $(\cos\theta_{\mathrm{qd}},\sin\theta_{\mathrm{qd}})$ is exactly $\mathbf{e}_\theta$ (up to sign), which matches the current direction. This proves the claimed alignment.
+\end{proof}
+
+\begin{proposition}[Local vortex dominance near an isolated simple node]
+Let $\psi(x,y)$ be a $C^2$ complex-valued wavefunction on a neighbourhood of $z_0\in\mathbb{C}$, and assume that $\psi$ has an isolated simple zero at $z_0$ and can be written locally as
+\[
+\psi(z,\bar z)=(z-z_0)\,g(z,\bar z),\qquad g\neq 0\ \text{near}\ z_0.
+\]
+Define $w=\partial_z^2\log\psi$ on the punctured neighbourhood $0<|z-z_0|<r_*$ and define $\theta_{\mathrm{qd}}$ by \cref{eq:thetaqd}.
+Then as $r:=|z-z_0|\to0$:
+\begin{itemize}
+  \item (QD dominance) one has
+  \[
+    w(z)= -\frac{1}{(z-z_0)^2} + \partial_z^2\log g(z,\bar z),
+  \]
+  and in particular if $\sup_{|z-z_0|\le r_*}|\partial_z^2\log g|\le M$ then for sufficiently small $r$,
+  \[
+    \theta_{\mathrm{qd}}(z)\equiv \arg(z-z_0)-\tfrac\pi2 \quad (\mathrm{mod}\ \pi)
+  \]
+  up to an angular error $O(M r^2)$.
+  \item (Current direction) writing $\psi=Re^{iS}$ on the punctured neighbourhood, the probability current satisfies $\mathbf J=R^2\nabla S$. Moreover
+  \[
+    S(z)=\arg(z-z_0)+\operatorname{Im}(\log g(z,\bar z))
+  \]
+  so $\nabla S = r^{-1}\mathbf e_\theta + O(1)$ as $r\to0$, and the unit current direction $\mathbf J/|\mathbf J|$ (where defined) approaches the tangential direction $\mathbf e_\theta$ with angular error $O(r)$.
+\end{itemize}
+Consequently, in any sufficiently small punctured neighbourhood of $z_0$ where $\mathbf J\neq0$, the QD-horizontal direction field and the current direction field align asymptotically as $r\to0$.
+\label{prop:local-vortex-dominance}
+\end{proposition}
+
+\begin{proof}
+Using $\log\psi=\log(z-z_0)+\log g$ on the punctured neighbourhood, differentiation gives
+\[
+\partial_z^2\log\psi = -\frac{1}{(z-z_0)^2} + \partial_z^2\log g,
+\]
+which proves the first displayed identity. Writing
+\[
+w(z)= -\frac{1}{(z-z_0)^2}\Bigl(1-(z-z_0)^2\,\partial_z^2\log g(z,\bar z)\Bigr)
+\]
+shows that if $|(z-z_0)^2\,\partial_z^2\log g|\le Mr^2$ is small then the argument of $w$ differs from that of $-(z-z_0)^{-2}$ by $O(Mr^2)$, and therefore the QD-horizontal angle differs from $\arg(z-z_0)-\pi/2$ by the same order (mod $\pi$).
+
+For the current, write $\psi=Re^{iS}$ with $S=\operatorname{Im}(\log\psi)=\arg(z-z_0)+\operatorname{Im}(\log g)$. The gradient of $\arg(z-z_0)$ is $r^{-1}\mathbf e_\theta$ while $\nabla\operatorname{Im}(\log g)$ is bounded because $g\neq0$ and $g$ is $C^2$. Thus $\nabla S=r^{-1}\mathbf e_\theta+O(1)$, and normalising yields an angular deviation from $\mathbf e_\theta$ of order $O(r)$. Since $\mathbf J=R^2\nabla S$, the current direction agrees with the direction of $\nabla S$ wherever $\mathbf J\neq0$.
+\end{proof}
+
+\begin{conjecture}[Single-vortex dominance on annuli (refined target)]
+Let $\psi(x,y)$ be a smooth, complex-valued wavefunction on a planar region and fix a complex coordinate $z=x+iy$ on that region. Assume:
+\begin{itemize}
+  \item $\psi$ has an \emph{isolated simple zero} at $z_0$ and is nonzero on an annulus $A=\{r_1<|z-z_0|<r_2\}$,
+  \item $w=\partial_z^2\log\psi$ is well-defined on $A$, and
+  \item on $A$ one can factor $\psi=(z-z_0)g$ with $g\neq0$ and $\partial_z^2\log g$ small compared to $(z-z_0)^{-2}$ (in a quantified sense, e.g. $|(z-z_0)^2\,\partial_z^2\log g|\le \varepsilon\ll1$).
+\end{itemize}
+Then on the subset of $A$ where the probability current $\mathbf J=\operatorname{Im}(\bar\psi\,\nabla\psi)$ is nonzero, the current direction field $\mathbf J/|\mathbf J|$ approximately aligns with the QD-horizontal direction field determined by
+\[\theta_{\mathrm{qd}}=-\tfrac12\arg(w)\ (\mathrm{mod}\ \pi),\]
+with an angle error that is expected to scale with $\varepsilon$.
+
+\noindent\emph{Comment.} \cref{prop:local-vortex-dominance} proves asymptotic alignment as $|z-z_0|\to0$ under the local factorisation $\psi=(z-z_0)g$ with $g\neq0$. The conjecture concerns extending this local mechanism to a finite annulus by requiring that the double-pole term in $w$ dominate the remainder throughout $A$.
+\end{conjecture}
+
+\begin{remark}
+In the strictly stationary 1D bound-state setting with a real eigenfunction, both the Bohmian velocity and the probability current vanish away from nodes. In that regime the conjecture is not about literal real-axis trajectory coincidence; it targets regimes with nonzero current (e.g. 2D vortices, scattering states, or time-dependent superpositions) where probability-current streamlines provide a nontrivial flow to compare against.
+\end{remark}
+
+\begin{remark}[Limitations and non-examples]
+The direction-field alignment suggested by the vortex class is not automatic for general nodal patterns. In particular, multi-node states can exhibit substantial misalignment between $\mathbf J$ and the QD-horizontal direction field even away from the nodes.
+The script \texttt{scripts/qd\_vs\_current\_two\_nodes.py} provides a concrete two-node test case where the misalignment histogram is broad rather than sharply peaked near zero; this should be read as evidence that any global foliation/trajectory statement requires additional hypotheses beyond analyticity and nonzero current. A comprehensive survey of singular and topological features of nodal wave patterns can be found in~\cite{Dennis2009}.
+\end{remark}
+
+\section{Nodal Singularities and Confinement}
+
+Near a node of multiplicity $m$, $w\sim -m/(z-\rho)^2$ (a double pole in $w$). Quadratic differential theory implies a distinguished local trajectory structure whose qualitative type depends on the leading coefficient and the chosen branch for $\sqrt{w}$.
+
+\begin{conjecture}[Nodal confinement from one-sided seam monotonicity (open problem)]
+Assume the amplitude seam $s$ satisfies a suitable one-sided transverse monotonicity condition on a node-free region (e.g. $\partial_\sigma s\ge c>0$ on an open set $U$ that does not contain zeros of $\psi$).
+Then nodal accumulation \emph{inside} $U$ should be obstructed under additional mild hypotheses.
+
+\paragraph{Motivation (heuristic).}
+Near a zero $\rho$ of multiplicity $m$, one has $s=\log R\sim m\log|z-\rho|+\text{smooth}$, so transverse derivatives necessarily change sign across a node; thus any monotonicity condition can only hold on a node-free region.
+However, the logarithmic singularity is locally integrable, so turning this into a contradiction for a pointwise bound on $U$ is subtle.
+A natural route is potential theory: wherever $R>0$, the seam identity~\cref{eq:laplaceRoverR} yields $\Delta s+|\nabla s|^2=-Q$.
+In regimes where $Q\ge0$, this makes $s$ subharmonic, and the maximum principle then constrains how large $s$ can be on subdomains.
+Formulating and proving a clean ``no interior accumulation'' theorem along these lines is left as a concrete open problem.
+\end{conjecture}
+
+\section{Stationary-State Degeneracy}
+
+When $S$ is constant (real wave functions), $\nabla\tilde s\propto\nabla s$ and $g$ may vanish where $\nabla s=0$. The flow is stationary (velocity zero). The foliation picture remains well-defined: horizontal leaves collapse to level sets of $s$. The geometry is recovered in the limit of infinitesimal phase perturbations, where geodesics become short segments along level sets.
+
+\section{Supporting Numerical Computation}
+\label{sec:numerics}
+
+We use two complementary numerical illustrations. Both are implemented as reproducible Python scripts in the repository and generate the PDF figures included below (when present).
+
+To quantify direction-field agreement we use the angle difference (mod $\pi$)
+\[
+\Delta\theta:=\theta_J-\theta_{\mathrm{qd}}\ (\mathrm{mod}\ \pi),
+\]
+and report the alignment statistic
+\begin{equation}
+ \alpha:=\langle|\sin(\Delta\theta)|\rangle,
+ \label{eq:alpha}
+\end{equation}
+averaged over a grid after masking near nodes and regions with numerically negligible current.
+Table~\ref{tab:alignment} summarises the outcomes for three representative states. The roughly three-order-of-magnitude separation between the vortex cases ($\alpha\sim10^{-4}$) and the two-node case ($\alpha\approx0.12$) shows that the single-vortex condition does real work: it is not merely smoothing a near-alignment that happens generically.
+
+\begin{table}[h]
+\centering
+\begin{tabular}{lccc}
+\hline
+State & $\alpha$ from \cref{eq:alpha} & RMS($|\Delta\theta|$) [deg] & 95\% quantile [deg] \\
+\hline
+Vortex $\psi=ze^{-|z|^2/2}$ & $1.01\times10^{-4}$ & $7.76\times10^{-3}$ & $1.45\times10^{-2}$ \\
+Shifted vortex $\psi=(z-z_0)e^{-|z|^2/2}$ & $1.11\times10^{-4}$ & $8.92\times10^{-3}$ & $1.81\times10^{-2}$ \\
+Two nodes $\psi=(z^2-a^2)e^{-|z|^2/2}$ & $1.17\times10^{-1}$ & $1.40\times10^{1}$ & $2.91\times10^{1}$ \\
+\hline
+\end{tabular}
+\caption{Direction-field alignment statistics for the three numerical tests in \S\,\ref{sec:numerics} (grid-based comparison away from nodes; $\Delta\theta$ taken modulo $\pi$). The first two are near-perfectly aligned; the two-node case is a non-example that motivates additional hypotheses beyond analyticity and nonzero current.}
+\label{tab:alignment}
+\end{table}
+
+\paragraph{(A) Harmonic-oscillator node geometry (structure only).}
+For the harmonic-oscillator first excited state $\psi_1(x)=\sqrt{2}\pi^{-1/4}x\exp(-x^2/2)$ (node at $x=0$):
+
+In the simplest analytic continuation $\psi_1(z)\propto z\exp(-z^2/2)$ one finds explicitly
+\[
+ w(z)=\partial_z^2\log\psi_1(z) = -1-\frac{1}{z^2},
+\]
+so the node becomes a double pole of $w$ at $z=0$.
+
+Figure~\ref{fig:bohm-plot} plots approximate horizontal trajectories of $w\,dz^2$ in the complex plane with a $\log|w|$ background, and marks the real axis as the configuration line. Since for a real stationary eigenstate the Bohmian velocity is identically zero away from nodes, this figure is included as a clean visualisation of how the double-pole structure of $w$ organises the local foliation near a node, rather than as a trajectory-comparison test.
+
+An implementation that generates \cref{fig:bohm-plot} is provided in \texttt{scripts/harmonic\_qd\_foliation.py}.
+
+\paragraph{(B) Vortex test (nonzero current; quantitative evidence).}
+In 2D one can choose states with a genuine circulating probability current. For the vortex-like state
+\[
+\psi(x,y)=(x+iy)\exp(-(x^2+y^2)/2),
+\]
+we numerically compare probability-current streamlines to the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$. In this specific case the alignment can in fact be shown analytically (\emph{exactly} away from the node); see \cref{prop:vortex-alignment}. The angle-misalignment histogram in \cref{fig:qd-vs-current} therefore serves as a numerical consistency check of the discretisation and streamline tracing, and as a benchmark for less symmetric examples where no closed-form alignment proof is available.
+
+An implementation that generates \cref{fig:qd-vs-current} is provided in \texttt{scripts/qd\_vs\_current\_vortex.py}.
+
+\paragraph{(C) Shifted vortex test (symmetry-broken test).}
+To break the obvious rotational symmetry about the origin while keeping a single vortex node, we test
+\[
+\psi(x,y)=(z-z_0)\exp(-|z|^2/2),\qquad z=x+iy,
+\]
+with a fixed off-centre node location $z_0\neq0$. This state has a nonzero circulating current around $z_0$ but a Gaussian envelope centered at the origin.
+The resulting misalignment histogram in \cref{fig:qd-vs-current-shifted} is again sharply concentrated near zero, providing a simple robustness test that the observed alignment is not an artefact of placing the vortex at the origin.
+An implementation that generates \cref{fig:qd-vs-current-shifted} is provided in \texttt{scripts/qd\_vs\_current\_shifted\_vortex.py}.
+
+\begin{figure}[p]
+  \centering
+  \IfFileExists{figures/bohm_foliation_harmonic.pdf}{%
+    \includegraphics[width=\linewidth]{figures/bohm_foliation_harmonic.pdf}%
+  }{%
+    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
+    Expected content: horizontal foliation of $w\,dz^2$ overlaid with Bohmian streamlines and the seam-induced conformal factor.\vspace{3cm}}}%
+  }
+  \caption{Horizontal foliation of $w\,dz^2$ for the analytically continued harmonic-oscillator first excited state, plotted in the complex plane with a $\log|w|$ background.}
+  \label{fig:bohm-plot}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \IfFileExists{figures/qd_vs_current_vortex.pdf}{%
+    \includegraphics[width=\linewidth]{figures/qd_vs_current_vortex.pdf}%
+  }{%
+    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
+    Expected content: comparison of probability-current streamlines with the horizontal-trajectory direction field from $w=\partial_z^2\log\psi$ in a 2D example with a node.\vspace{3cm}}}%
+  }
+  \caption{2D vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$).}
+  \label{fig:qd-vs-current}
+\end{figure}
+
+\begin{figure}[p]
+  \centering
+  \IfFileExists{figures/qd_vs_current_shifted_vortex.pdf}{%
+    \includegraphics[width=\linewidth]{figures/qd_vs_current_shifted_vortex.pdf}%
+  }{%
+    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
+    Expected content: shifted-vortex comparison of probability-current streamlines with the horizontal-trajectory direction field from $w=\partial_z^2\log\psi$.\vspace{3cm}}}%
+  }
+  \caption{Shifted vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$).}
+  \label{fig:qd-vs-current-shifted}
+\end{figure}
+
+\section{Discussion}
+
+This paper isolates three layers:
+(i) standard Bohm--Madelung identities expressed in seam variables ($s=\log R$),
+(ii) a seam-induced conformal factor $|\nabla\tilde s|^2$ (whose 1D geodesic interpretation is necessarily reparametrisation-trivial), and
+(iii) a quadratic-differential organiser for nodal neighbourhoods that requires analytic continuation and careful branch conventions.
+
+In this paper, (i) is fully explicit, while (ii)--(iii) are geometric proposals supported by local pole structure and by the numerical tests in \cref{sec:numerics}.
+
+The current evidence supports a narrow message: in the single-vortex class the QD-horizontal direction field matches the probability-current direction field exactly (and remains numerically stable under translation of the vortex), and more generally \cref{prop:local-vortex-dominance} shows that this mechanism holds asymptotically near any isolated simple node under a mild local factorisation hypothesis. However, multi-node states need not align away from nodes. Any correct global theorem therefore appears to require a ``single-vortex dominance'' hypothesis (or an equivalent condition ensuring that the local double-pole contribution to $w=\partial_z^2\log\psi$ controls the direction field on a finite annulus).
+
+Further directions include clarifying the precise statement relating foliation curves to configuration-space trajectories (including branch conventions), broadening the set of numerical tests beyond the single-vortex class, and exploring higher-dimensional analogues via level-set foliations of $s$.
+
+\paragraph{Outlook.} Concrete directions suggested by this dictionary include:
+\begin{itemize}
+  \item 2D/3D level-set foliation theory for nodal lines/surfaces expressed in seam variables.
+  \item Making one-sided ``transverse monotonicity'' criteria on $s$ precise enough to yield geometric nodal theorems.
+  \item Extending the quadratic-differential comparison to time-dependent wave packets (streamlines of the full current) and to scattering states (nonzero stationary current); Bohmian trajectory methods for time-dependent problems are reviewed in~\cite{Wyatt2005}.
+  \item Exploring links to geometric quantum mechanics and information geometry, where scalar potentials generate natural metrics on state spaces.
+\end{itemize}
+
+\section{Conclusion}
+
+The seam variables provide a compact repackaging of the Bohm--Madelung decomposition, with the quantum potential arising directly from the curvature of $s=\log R$. A promising but still-developing picture connects nodal structure to the local trajectory geometry of a quadratic differential derived from $\log\psi$. Turning that picture into a theorem will require (at minimum) a precise map from the complex-plane foliation to configuration-space dynamics and a clean treatment of branch choices at nodes.
+
+\section*{Code Availability}
+All figures and numerical alignment statistics reported in this manuscript are generated by reproducible Python scripts included in the companion repository at \url{https://github.com/Roenbaeck/bohmian}. For this version of the manuscript, the scripts correspond to repository state commit \texttt{9da134e}. See \texttt{README.md} in the repository for the exact commands used to generate each figure.
+
+%----------------------------------------------------------------------------------------
+
+\begin{thebibliography}{99}
+
+\bibitem{Bohm1952}
+D. Bohm, Phys. Rev. \textbf{85}, 166 (1952).
+
+\bibitem{Madelung1926}
+E. Madelung, Z. Phys. \textbf{40}, 322 (1926).
+
+\bibitem{Takabayasi1952}
+T. Takabayasi, Prog. Theor. Phys. \textbf{8}, 143 (1952).
+
+\bibitem{Holland1993}
+P. R. Holland, \textit{The Quantum Theory of Motion} (Cambridge University Press, 1993).
+
+\bibitem{Durr2013}
+D. Dürr and S. Teufel, \textit{Bohmian Mechanics} (Springer, 2013).
+
+\bibitem{Wyatt2005}
+R. E. Wyatt, \textit{Quantum Dynamics with Trajectories: Introduction to Quantum Hydrodynamics} (Springer, 2005).
+
+\bibitem{Strebel1984}
+K. Strebel, \textit{Quadratic Differentials} (Springer, 1984).
+
+\bibitem{NyeBerry1974}
+J. F. Nye and M. V. Berry, Proc. R. Soc. Lond. A \textbf{336}, 165 (1974).
+
+\bibitem{BerryDennis2000}
+M. V. Berry and M. R. Dennis, Proc. R. Soc. Lond. A \textbf{456}, 2059 (2000).
+
+\bibitem{Dennis2009}
+M. R. Dennis, K. O'Holleran, and M. J. Padgett, Prog. Opt. \textbf{53}, 293 (2009).
+
+\bibitem{OvsienkoTabachnikov2005}
+V. Ovsienko and S. Tabachnikov, \textit{Projective Differential Geometry Old and New: From Schwarzian Derivative to Cohomology of Diffeomorphism Groups} (Cambridge University Press, 2005).
+
+\bibitem{DiFrancesco1997}
+P. Di Francesco, P. Mathieu, and D. Sénéchal, \textit{Conformal Field Theory} (Springer, 1997).
+
+\end{thebibliography}
+
+\end{document}
