@@ -1,0 +1,50 @@
+% Cover letter for submission to Springer Nature / Foundations of Physics
+% Compile with: pdflatex cover_letter.tex
+\documentclass[11pt]{letter}
+
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+
+% --- Editable fields -------------------------------------------------
+\newcommand{\journal}{Foundations of Physics}
+\newcommand{\manuscripttitle}{Seam Geometry of Bohmian Mechanics: Geodesics, Foliations, and Nodal Singularities}
+
+\signature{Lars R\"onnb\"ack}
+\address{%
+Department of Computer and Systems Sciences\\
+Stockholm University\\
+Stockholm, Sweden\\
+\href{https://orcid.org/0000-0002-8810-7587}{ORCID: 0000-0002-8810-7587}\\
+\href{mailto:lars@uptochange.com}{lars@uptochange.com}%
+}
+
+% Set the recipient address as appropriate for the journal/submission portal.
+\begin{document}
+\begin{letter}{%
+Editorial Office\\
+\journal\\
+Springer Nature
+}
+
+\date{\today}
+
+\opening{Dear Editors of \journal,}
+
+Please consider the enclosed manuscript entitled ``\manuscripttitle'' for publication in \journal.
+
+The paper develops a ``seam'' (scalar-first) geometric reframing of the Bohm--Madelung formulation of quantum mechanics, with the amplitude seam $s=\log R$ encoding the quantum potential via $Q=-(s''+(s')^2)$ in the stationary 1D convention used. It also introduces a quadratic differential $w=(\partial_z^2\log\psi)\,dz^2$ (in a Wirtinger-derivative sense) and compares its induced horizontal direction field to probability-current streamlines. For the Gaussian vortex state $\psi=ze^{-|z|^2/2}$ the paper proves exact direction-field alignment away from the node, and it provides an asymptotic ``vortex dominance'' result near isolated simple zeros under mild local factorisation hypotheses, together with explicit limitations via a two-node non-example and reproducible numerical tests.
+
+This manuscript is original, has not been published previously, and is not under consideration for publication elsewhere.
+
+\textbf{Funding.} The author did not receive support from any organization for the submitted work.
+
+\textbf{Competing interests.} The author has no relevant financial or non-financial interests to disclose.
+
+The manuscript includes a Code Availability statement with a public repository link for figure-generation scripts and numerical checks.
+
+Thank you for your consideration.
+
+\closing{Sincerely,}
+
+\end{letter}
+\end{document}
