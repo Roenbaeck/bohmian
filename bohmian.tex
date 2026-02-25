@@ -1,92 +1,46 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Journal Article
-% LaTeX Template (Seams series style)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Springer Nature LaTeX template (sn-jnl.cls)
+\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences numbered reference style
 
-\documentclass[11pt,twoside]{article}
-
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsthm}
-\usepackage[sc]{mathpazo}
-\usepackage[T1]{fontenc}
-\usepackage{microtype}
-\usepackage[english]{babel}
-\usepackage[margin=1in]{geometry}
-\usepackage[hang,small,labelfont=bf,up,textfont=it,up]{caption}
-\usepackage{enumitem}
+%% Additional packages used by this manuscript
+\usepackage{graphicx}%
+\usepackage{mathtools}%
+\usepackage{amssymb}%
+\usepackage{enumitem}%
 \setlist[itemize]{noitemsep}
-\usepackage{abstract}
-\renewcommand{\abstractnamefont}{\normalfont\bfseries}
-\renewcommand{\abstracttextfont}{\normalfont\small\itshape}
-\usepackage{framed}
-\usepackage{xcolor}
-\usepackage{titlesec}
-\usepackage{fancyhdr}
-\pagestyle{fancy}
-\fancyhead{}
-\fancyfoot{}
-\fancyhead[C]{Seam Geometry of Bohmian Mechanics}
-\fancyfoot[C]{\thepage}
-\usepackage{titling}
-\usepackage[hidelinks]{hyperref}
-\usepackage{lmodern}
-\usepackage{mathtools}
-\usepackage{graphicx}
-\usepackage{cleveref}
+\usepackage{cleveref}%
 
-\newtheorem{definition}{Definition}[section]
+%% Theorem environments
+\theoremstyle{thmstyleone}%
 \newtheorem{theorem}{Theorem}[section]
-\newtheorem{proposition}{Proposition}[section]
-\newtheorem{observation}{Observation}[section]
-\newtheorem{conjecture}{Conjecture}[section]
-\newtheorem{remark}{Remark}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{observation}[theorem]{Observation}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{thmstyletwo}%
+\newtheorem{remark}[theorem]{Remark}
+
+\theoremstyle{thmstylethree}%
+\newtheorem{definition}[theorem]{Definition}
 
 \numberwithin{equation}{section}
 
-\definecolor{PrismBoxGray}{gray}{0.95}
-\newenvironment{analogybox}
-  {\begin{center}\setlength{\FrameSep}{6pt}\begin{framed}\noindent\ignorespaces}
-  {\end{framed}\end{center}}
+\title[Seam Geometry of Bohmian Mechanics]{Seam Geometry of Bohmian Mechanics:\\Geodesics, Foliations, and Nodal Singularities}
 
-\hypersetup{
-  pdftitle={Seam Geometry of Bohmian Mechanics: Geodesics, Foliations, and Nodal Singularities},
-  pdfauthor={Lars R\"onnb\"ack}
-}
+\author*[1]{\fnm{Lars} \sur{Rönnbäck} (\href{https://orcid.org/0000-0002-8810-7587}{ORCID: 0000-0002-8810-7587})}\email{lars@uptochange.com}
 
-%----------------------------------------------------------------------------------------
-% TITLE
-%----------------------------------------------------------------------------------------
+\affil*[1]{\orgdiv{Department of Computer and Systems Sciences}, \orgname{Stockholm University}, \orgaddress{\city{Stockholm}, \country{Sweden}}}
 
-\pretitle{\begin{center}\Huge\bfseries}
-\posttitle{\end{center}}
-\title{Seam Geometry of Bohmian Mechanics:\\
-Geodesics, Foliations, and Nodal Singularities}
-\author{%
-  \\[2mm]
-  \textsc{Lars Rönnbäck}\\[1ex]
-  \normalsize Department of Computer and Systems Sciences, Stockholm University, Stockholm, Sweden\\
-  \normalsize Corresponding author: \href{mailto:lars@uptochange.com}{lars@uptochange.com}\\
-  \normalsize ORCID: \href{https://orcid.org/0000-0002-8810-7587}{0000-0002-8810-7587}\\[1ex]
-}
-\date{}
-\renewcommand{\maketitlehookd}{%
-\begin{abstract}
-\noindent This paper reframes Bohmian mechanics in seam variables built from the wavefunction modulus and phase. Writing $\psi=R\exp(iS/\hbar)$, the amplitude seam $s=\log R$ encodes the Bohm--Madelung quantum potential via $Q=-(R''/R)=-(s''+(s')^2)$ in the stationary one-dimensional (1D) convention used here. An \emph{effective seam} $\tilde s:=S-\tfrac12 s$ defines a seam-induced conformal factor that serves as a prototype for higher-dimensional metric constructions.
+\abstract{This paper reframes Bohmian mechanics in seam variables built from the wavefunction modulus and phase. Writing $\psi=R\exp(iS/\hbar)$, the amplitude seam $s=\log R$ encodes the Bohm--Madelung quantum potential via $Q=-(R''/R)=-(s''+(s')^2)$ in the stationary one-dimensional (1D) convention used here. An effective seam $\tilde s:=S-\tfrac12 s$ defines a seam-induced conformal factor that serves as a prototype for higher-dimensional metric constructions.
 
-Assuming a complex coordinate $z=x+iy$ on a two-dimensional (2D) configuration plane, we introduce the quadratic differential (QD) $w=(\partial_z^2\log\psi)\,dz^2$ and compare its induced horizontal direction field to probability-current streamlines. For the Gaussian vortex state $\psi=ze^{-|z|^2/2}$ we prove exact alignment: away from the node, the QD-horizontal direction field coincides with the probability-current direction field. More generally, we prove a local ``vortex dominance'' proposition giving asymptotic direction-field alignment near any isolated simple node under a mild factorisation hypothesis, and we document explicit limitations via a two-node non-example.
+Assuming a complex coordinate $z=x+iy$ on a two-dimensional (2D) configuration plane, the quadratic differential (QD) $w=(\partial_z^2\log\psi)\,dz^2$ is introduced and its induced horizontal direction field is compared to probability-current streamlines. For the Gaussian vortex state $\psi=ze^{-|z|^2/2}$, exact alignment is proved: away from the node, the QD-horizontal direction field coincides with the probability-current direction field. More generally, a local ``vortex dominance'' proposition gives asymptotic direction-field alignment near any isolated simple node under a mild factorisation hypothesis, and explicit limitations are documented via a two-node non-example.
 
-Reproducible numerical tests for a centered vortex, a shifted vortex, and a two-node state quantify when alignment persists and when it fails.
-\end{abstract}
-\noindent\textbf{Keywords:} Bohmian mechanics; Madelung hydrodynamics; seam geometry; quantum potential; holomorphic quadratic differential; nodal singularities
+Reproducible numerical tests for a centered vortex, a shifted vortex, and a two-node state quantify when alignment persists and when it fails.}
 
-
-}
+\keywords{Bohmian mechanics, Madelung hydrodynamics, seam geometry, quantum potential, quadratic differentials, nodal singularities}
 
 \begin{document}
 
 \maketitle
-\thispagestyle{fancy}
 
 \section{Introduction}
 
@@ -102,7 +56,7 @@ which induces a conformal metric of the form $g=|\nabla\tilde s|^2\delta_{ij}$. 
 
 All formal statements below are made for the stationary 1D case (most explicit calculations). Higher-dimensional generalisations using level-set foliations of $s$ are noted separately.
 
-\paragraph{Structure of the paper.}
+\noindent\textbf{Structure of the paper.}
 We first establish seam identities that reframe the Bohm--Madelung system in terms of $s=\log R$ and $\tilde s=S-\tfrac12 s$, including the stationary quantum potential identity $Q=-(s''+(s')^2)$.
 We then introduce the quadratic differential $w=\partial_z^2\log\psi\,dz^2$, prove exact and asymptotic alignment results for vortex-type nodes, and record explicit limitations and non-examples.
 Finally, we discuss nodal singularities and supporting numerical tests.
@@ -372,7 +326,7 @@ Near a node of multiplicity $m$, $w\sim -m/(z-\rho)^2$ (a double pole in $w$). Q
 Assume the amplitude seam $s$ satisfies a suitable one-sided transverse monotonicity condition on a node-free region (e.g. $\partial_\sigma s\ge c>0$ on an open set $U$ that does not contain zeros of $\psi$).
 Then nodal accumulation \emph{inside} $U$ should be obstructed under additional mild hypotheses.
 
-\paragraph{Motivation (heuristic).}
+\noindent\textbf{Motivation (heuristic).}
 Near a zero $\rho$ of multiplicity $m$, one has $s=\log R\sim m\log|z-\rho|+\text{smooth}$, so transverse derivatives necessarily change sign across a node; thus any monotonicity condition can only hold on a node-free region.
 However, the logarithmic singularity is locally integrable, so turning this into a contradiction for a pointwise bound on $U$ is subtle.
 A natural route is potential theory: wherever $R>0$, the seam identity~\cref{eq:laplaceRoverR} yields $\Delta s+|\nabla s|^2=-Q$.
@@ -412,11 +366,11 @@ Shifted vortex $\psi=(z-z_0)e^{-|z|^2/2}$ & $1.11\times10^{-4}$ & $8.92\times10^
 Two nodes $\psi=(z^2-a^2)e^{-|z|^2/2}$ & $1.17\times10^{-1}$ & $1.40\times10^{1}$ & $2.91\times10^{1}$ \\
 \hline
 \end{tabular}
-\caption{Direction-field alignment statistics for the three numerical tests in \S\,\ref{sec:numerics} (grid-based comparison away from nodes; $\Delta\theta$ taken modulo $\pi$). The first two are near-perfectly aligned; the two-node case is a non-example that motivates additional hypotheses beyond analyticity and nonzero current.}
+\caption{Direction-field alignment statistics for the three numerical tests in \S\,\ref{sec:numerics} (grid-based comparison away from nodes; $\Delta\theta$ taken modulo $\pi$). The first two are near-perfectly aligned; the two-node case is a non-example that motivates additional hypotheses beyond analyticity and nonzero current}
 \label{tab:alignment}
 \end{table}
 
-\paragraph{(A) Harmonic-oscillator node geometry (structure only).}
+\subsection{Harmonic-oscillator node geometry (structure only)}
 For the harmonic-oscillator first excited state $\psi_1(x)=\sqrt{2}\pi^{-1/4}x\exp(-x^2/2)$ (node at $x=0$):
 
 In the simplest analytic continuation $\psi_1(z)\propto z\exp(-z^2/2)$ one finds explicitly
@@ -429,7 +383,19 @@ Figure~\ref{fig:bohm-plot} plots approximate horizontal trajectories of $w\,dz^2
 
 An implementation that generates \cref{fig:bohm-plot} is provided in \texttt{scripts/harmonic\_qd\_foliation.py}.
 
-\paragraph{(B) Vortex test (nonzero current; quantitative evidence).}
+\begin{figure}[!tbp]
+  \centering
+  \IfFileExists{figures/Fig1.pdf}{%
+    \includegraphics[width=\linewidth]{figures/Fig1.pdf}%
+  }{%
+    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
+    Expected content: horizontal foliation of $w\,dz^2$ overlaid with Bohmian streamlines and the seam-induced conformal factor.\vspace{3cm}}}%
+  }
+  \caption{Horizontal foliation of $w\,dz^2$ for the analytically continued harmonic-oscillator first excited state, plotted in the complex plane with a $\log|w|$ background}
+  \label{fig:bohm-plot}
+\end{figure}
+
+\subsection{Vortex test (nonzero current; quantitative evidence)}
 In 2D one can choose states with a genuine circulating probability current. For the vortex-like state
 \[
 \psi(x,y)=(x+iy)\exp(-(x^2+y^2)/2),
@@ -438,7 +404,19 @@ we numerically compare probability-current streamlines to the quadratic-differen
 
 An implementation that generates \cref{fig:qd-vs-current} is provided in \texttt{scripts/qd\_vs\_current\_vortex.py}.
 
-\paragraph{(C) Shifted vortex test (symmetry-broken test).}
+\begin{figure}[!tbp]
+  \centering
+  \IfFileExists{figures/Fig2.pdf}{%
+    \includegraphics[width=\linewidth]{figures/Fig2.pdf}%
+  }{%
+    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
+    Expected content: comparison of probability-current streamlines with the horizontal-trajectory direction field from $w=\partial_z^2\log\psi$ in a 2D example with a node.\vspace{3cm}}}%
+  }
+  \caption{2D vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$)}
+  \label{fig:qd-vs-current}
+\end{figure}
+
+\subsection{Shifted vortex test (symmetry-broken test)}
 To break the obvious rotational symmetry about the origin while keeping a single vortex node, we test
 \[
 \psi(x,y)=(z-z_0)\exp(-|z|^2/2),\qquad z=x+iy,
@@ -447,39 +425,15 @@ with a fixed off-centre node location $z_0\neq0$. This state has a nonzero circu
 The resulting misalignment histogram in \cref{fig:qd-vs-current-shifted} is again sharply concentrated near zero, providing a simple robustness test that the observed alignment is not an artefact of placing the vortex at the origin.
 An implementation that generates \cref{fig:qd-vs-current-shifted} is provided in \texttt{scripts/qd\_vs\_current\_shifted\_vortex.py}.
 
-\begin{figure}[p]
+\begin{figure}[!tbp]
   \centering
-  \IfFileExists{figures/bohm_foliation_harmonic.pdf}{%
-    \includegraphics[width=\linewidth]{figures/bohm_foliation_harmonic.pdf}%
-  }{%
-    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
-    Expected content: horizontal foliation of $w\,dz^2$ overlaid with Bohmian streamlines and the seam-induced conformal factor.\vspace{3cm}}}%
-  }
-  \caption{Horizontal foliation of $w\,dz^2$ for the analytically continued harmonic-oscillator first excited state, plotted in the complex plane with a $\log|w|$ background.}
-  \label{fig:bohm-plot}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  \IfFileExists{figures/qd_vs_current_vortex.pdf}{%
-    \includegraphics[width=\linewidth]{figures/qd_vs_current_vortex.pdf}%
-  }{%
-    \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
-    Expected content: comparison of probability-current streamlines with the horizontal-trajectory direction field from $w=\partial_z^2\log\psi$ in a 2D example with a node.\vspace{3cm}}}%
-  }
-  \caption{2D vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$).}
-  \label{fig:qd-vs-current}
-\end{figure}
-
-\begin{figure}[p]
-  \centering
-  \IfFileExists{figures/qd_vs_current_shifted_vortex.pdf}{%
-    \includegraphics[width=\linewidth]{figures/qd_vs_current_shifted_vortex.pdf}%
+  \IfFileExists{figures/Fig3.pdf}{%
+    \includegraphics[width=\linewidth]{figures/Fig3.pdf}%
   }{%
     \fbox{\parbox{0.95\linewidth}{\vspace{3cm}\centering Figure file not found.\\
     Expected content: shifted-vortex comparison of probability-current streamlines with the horizontal-trajectory direction field from $w=\partial_z^2\log\psi$.\vspace{3cm}}}%
   }
-  \caption{Shifted vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$).}
+  \caption{Shifted vortex test: probability-current streamlines versus the quadratic-differential horizontal direction field derived from $w=\partial_z^2\log\psi$, plus a histogram of the angle misalignment (mod $\pi$)}
   \label{fig:qd-vs-current-shifted}
 \end{figure}
 
@@ -496,7 +450,7 @@ The current evidence supports a narrow message: in the single-vortex class the Q
 
 Further directions include clarifying the precise statement relating foliation curves to configuration-space trajectories (including branch conventions), broadening the set of numerical tests beyond the single-vortex class, and exploring higher-dimensional analogues via level-set foliations of $s$.
 
-\paragraph{Outlook.} Concrete directions suggested by this dictionary include:
+\noindent\textbf{Outlook.} Concrete directions suggested by this dictionary include:
 \begin{itemize}
   \item 2D/3D level-set foliation theory for nodal lines/surfaces expressed in seam variables.
   \item Making one-sided ``transverse monotonicity'' criteria on $s$ precise enough to yield geometric nodal theorems.
@@ -509,11 +463,11 @@ Further directions include clarifying the precise statement relating foliation c
 The seam variables provide a compact repackaging of the Bohm--Madelung decomposition, with the quantum potential arising directly from the curvature of $s=\log R$. A promising but still-developing picture connects nodal structure to the local trajectory geometry of a quadratic differential derived from $\log\psi$. Turning that picture into a theorem will require (at minimum) a precise map from the complex-plane foliation to configuration-space dynamics and a clean treatment of branch choices at nodes.
 
 \section*{Statements and Declarations}
-\paragraph{Competing Interests.} The author declares that there are no competing interests.
+\noindent\textbf{Competing Interests.} The author has no relevant financial or non-financial interests to disclose.
 
-\paragraph{Funding.} The author received no specific funding for this work.
+\noindent\textbf{Funding.} The author did not receive support from any organization for the submitted work.
 
-\paragraph{Declaration of generative AI and AI-assisted technologies.}
+\noindent\textbf{Declaration of generative AI and AI-assisted technologies.}
 During the preparation of this work the author used Grok 4.2, GPT-5.2, Gemini 3.1 Pro, and Claude Sonnet 4.6 in order to draft early versions of the manuscript, brainstorm and outline the revised manuscript, polish the exposition, and respond to reviewer feedback. After using these tools/services, the author reviewed and edited the content as needed and takes full responsibility for the content of the published article.
 
 \section*{Code Availability}
